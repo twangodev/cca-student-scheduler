@@ -158,16 +158,25 @@
 			createProgress = 0;
 			let errors = await response.json();
 			errors.forEach((e) => {
-				const conflicts = []
+				let conflictString = ""
 				switch (e.title) {
 					case "START_TIME":
 						startTimeInvalid = true;
 						startTimeError = e.description;
 						break;
 					case "CONFLICT":
-						conflicts.push(e.data);
+						e.data.forEach((c) => {
+							conflictString += `${c.name} from ${c.startTime} to ${c.endTime} on ${c.dayOfWeek}, `;
+						})
 						break
 				}
+
+				if (conflictString !== "") {
+					conflictMessage = `Conflicts with: ${conflictString.slice(0, -2)}`;
+				}
+
+
+
 			})
 		}
 
