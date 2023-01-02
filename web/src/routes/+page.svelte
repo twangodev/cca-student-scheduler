@@ -1,20 +1,5 @@
 <script>
-	import {
-		AspectRatio,
-		Breadcrumb,
-		ClickableTile,
-		Column,
-		DataTableSkeleton,
-		Grid,
-		Row,
-		SkeletonPlaceholder,
-		SkeletonText,
-		Tag,
-		Tile,
-		Tooltip
-	} from 'carbon-components-svelte';
-	import { GET } from '$lib/http.js';
-	import DaySelector from "$lib/components/MultiDaySelector.svelte";
+	import { Column, Grid, Row } from 'carbon-components-svelte';
 </script>
 
 <Grid>
@@ -23,5 +8,4 @@
 			<h2>Overview</h2>
 		</Column>
 	</Row>
-
 </Grid>

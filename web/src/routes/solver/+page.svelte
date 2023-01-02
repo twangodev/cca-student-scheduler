@@ -1,18 +1,9 @@
 <script>
-	import {
-		AspectRatio,
-		ClickableTile,
-		Column,
-		Grid,
-		Row,
-		SkeletonPlaceholder,
-		Tag
-	} from 'carbon-components-svelte';
+	import { Column, Grid, Row, Tag } from 'carbon-components-svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { GET } from '$lib/http.js';
 	import NumericalBox from '$lib/components/NumericalBox.svelte';
 	import NumericalBoxContainer from '$lib/components/NumericalBoxContainer.svelte';
-	import DaySelector from "$lib/components/MultiDaySelector.svelte";
 
 	let status = {
 		color: null,

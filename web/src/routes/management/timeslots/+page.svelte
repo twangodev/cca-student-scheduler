@@ -6,7 +6,7 @@
 		ContentSwitcher,
 		DataTable,
 		DataTableSkeleton,
-		Grid, InlineNotification,
+		Grid,
 		Modal,
 		ModalBody,
 		ModalFooter,
@@ -14,27 +14,24 @@
 		OverflowMenu,
 		OverflowMenuItem,
 		ProgressBar,
-		RadioButton,
-		RadioButtonGroup,
 		Row,
 		SelectItem,
 		Switch,
 		TextArea,
 		TextInput,
-		TimePicker,
-		TimePickerSelect, ToastNotification,
+		TimePickerSelect,
 		Toolbar,
 		ToolbarContent,
 		ToolbarMenu,
 		ToolbarMenuItem,
 		ToolbarSearch
-	} from "carbon-components-svelte";
+	} from 'carbon-components-svelte';
 	import { DELETE, GET, POST } from '$lib/http.js';
 	import { onMount } from 'svelte';
 	import { StatusCodes } from 'http-status-codes';
-	import DaySelector from "$lib/components/MultiDaySelector.svelte";
-	import IntelligentHHMMTimePicker from "$lib/components/IntelligentHHMMTimePicker.svelte";
-	import { hhmmToHHMMSS } from "$lib/timeslot.js";
+	import DaySelector from '$lib/components/MultiDaySelector.svelte';
+	import IntelligentHHMMTimePicker from '$lib/components/IntelligentHHMMTimePicker.svelte';
+	import { hhmmToHHMMSS } from '$lib/timeslot.js';
 
 	const headers = [
 		{ key: 'name', value: 'Name' },
@@ -75,7 +72,7 @@
 	$: daysOfWeekInvalid = daysOfWeek.length === 0;
 	let startTime = {
 		hours: null,
-		minutes: null,
+		minutes: null
 	};
 	let startTimeValue = '';
 	let startTimeSuffix = amOrPm;
@@ -83,13 +80,13 @@
 	let startTimeError = '';
 	let endTime = {
 		hours: null,
-		minutes: null,
+		minutes: null
 	};
 	let endTimeValue = '';
-	let endTimeInvalid = false
+	let endTimeInvalid = false;
 	let endTimeError = '';
 	let endTimeSuffix = amOrPm;
-	let conflictMessage = ""
+	let conflictMessage = '';
 	let createProgress = 0;
 
 	function showCreateTimeslotModal() {
@@ -100,7 +97,7 @@
 		daysOfWeek = [selectedDay.toUpperCase()];
 		startTime = {
 			hours: null,
-			minutes: null,
+			minutes: null
 		};
 		startTimeValue = '';
 		startTimeSuffix = amOrPm;
@@ -108,20 +105,20 @@
 		startTimeError = '';
 		endTime = {
 			hours: null,
-			minutes: null,
+			minutes: null
 		};
 		endTimeValue = '';
 		endTimeInvalid = false;
 		endTimeSuffix = amOrPm;
-		conflictMessage = "";
+		conflictMessage = '';
 		createProgress = 0;
 	}
 
 	async function createTimeslot() {
-		let returnFromInvalidInput = false
+		let returnFromInvalidInput = false;
 		if (name === '') {
 			showNameRequired = true;
-			returnFromInvalidInput = true
+			returnFromInvalidInput = true;
 		}
 
 		if (startTime.hours == null || startTime.minutes == null) {
@@ -138,7 +135,7 @@
 
 		if (daysOfWeekInvalid) returnFromInvalidInput = true;
 
-		if (returnFromInvalidInput) return
+		if (returnFromInvalidInput) return;
 
 		createProgress = undefined;
 
@@ -146,8 +143,8 @@
 			name: name,
 			description: description,
 			daysOfWeek: daysOfWeek,
-			startTime: hhmmToHHMMSS(startTime, startTimeSuffix) ,
-			endTime: hhmmToHHMMSS(endTime, endTimeSuffix),
+			startTime: hhmmToHHMMSS(startTime, startTimeSuffix),
+			endTime: hhmmToHHMMSS(endTime, endTimeSuffix)
 		};
 
 		const response = await POST('/timeslots', data);
@@ -158,26 +155,23 @@
 			createProgress = 0;
 			let errors = await response.json();
 			errors.forEach((e) => {
-				let conflictString = ""
+				let conflictString = '';
 				switch (e.title) {
-					case "START_TIME":
+					case 'START_TIME':
 						startTimeInvalid = true;
 						startTimeError = e.description;
 						break;
-					case "CONFLICT":
+					case 'CONFLICT':
 						e.data.forEach((c) => {
 							conflictString += `${c.name} from ${c.startTime} to ${c.endTime} on ${c.dayOfWeek}, `;
-						})
-						break
+						});
+						break;
 				}
 
-				if (conflictString !== "") {
+				if (conflictString !== '') {
 					conflictMessage = `Conflicts with: ${conflictString.slice(0, -2)}`;
 				}
-
-
-
-			})
+			});
 		}
 
 		createProgress = 100;
@@ -240,7 +234,9 @@
 						bind:value={startTimeValue}
 						bind:invalid={startTimeInvalid}
 						bind:invalidText={startTimeError}
-						onChange={() => {conflictMessage = ""}}
+						onChange={() => {
+							conflictMessage = '';
+						}}
 					>
 						<TimePickerSelect bind:value={startTimeSuffix}>
 							<SelectItem value="am" text="AM" />
@@ -256,7 +252,9 @@
 						bind:value={endTimeValue}
 						bind:invalid={endTimeInvalid}
 						bind:invalidText={endTimeError}
-						onChange={() => {conflictMessage = ""}}
+						onChange={() => {
+							conflictMessage = '';
+						}}
 					>
 						<TimePickerSelect bind:value={endTimeSuffix}>
 							<SelectItem value="am" text="AM" />

@@ -22,7 +22,6 @@
 	} from 'carbon-components-svelte';
 	import { DELETE, GET, POST } from '$lib/http.js';
 	import { StatusCodes } from 'http-status-codes';
-	import { DocumentImport } from 'carbon-icons-svelte';
 
 	const headers = [
 		{ key: 'name', value: 'Name' },
